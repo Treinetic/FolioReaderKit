@@ -250,9 +250,9 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     }
 
     func configureNavBar() {
-        let navBackground = folioReader.isNight(self.readerConfig.nightModeMenuBackground, UIColor.white)
-        let tintColor = readerConfig.tintColor
-        let navText = folioReader.isNight(UIColor.white, UIColor.black)
+        let navBackground = folioReader.isNight(self.readerConfig.nightModeMenuBackground, self.readerConfig.primaryColor)
+        let tintColor = readerConfig.navTintColor
+        let navText = folioReader.isNight(UIColor.white, tintColor)
         let font = UIFont(name: "Avenir-Light", size: 17)!
         setTranslucentNavigation(color: navBackground, tintColor: tintColor, titleColor: navText, andFont: font)
     }
@@ -1342,7 +1342,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         folioReader.saveReaderState()
         hideBars()
 
-        let menu = FolioReaderFontsMenu(folioReader: folioReader, readerConfig: readerConfig)
+        let menu = FolioReaderFontsMenuModified(folioReader: folioReader, readerConfig: readerConfig)
         menu.modalPresentationStyle = .custom
 
         animator = ZFModalTransitionAnimator(modalViewController: menu)

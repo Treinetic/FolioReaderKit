@@ -204,7 +204,6 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
 
         if self.readerConfig.enableTTS && !self.book.hasAudio {
             webView.js("wrappingSentencesWithinPTags()")
-
             if let audioPlayer = self.folioReader.readerAudioPlayer, (audioPlayer.isPlaying() == true) {
                 audioPlayer.readCurrentSentence()
             }

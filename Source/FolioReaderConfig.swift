@@ -244,4 +244,21 @@ open class FolioReaderConfig: NSObject {
         case .horizontalWithVerticalContent:    return horizontalContentVertical
         }
     }
+    
+    /// Edit by Hasitha
+    
+    /// Search option
+    open var isSearchEnabled = false
+    
+    /// font change option
+    open var isFontEnabled = false
+    
+    /// primary color
+    open var primaryColor = UIColor.white
+    
+    /// nav bar tintColor
+    open var navTintColor = UIColor.black
+    
+    /// disabled WrappingSentence
+    open var isWrappSentence = false
 }

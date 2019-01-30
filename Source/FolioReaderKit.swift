@@ -200,6 +200,11 @@ extension FolioReader {
     /// Check current font name. Default .andada
     open var currentFont: FolioReaderFont {
         get {
+            
+            if let config = readerContainer?.readerConfig, config.isFontEnabled == false {
+                return .none
+            }
+            
             guard
                 let rawValue = self.defaults.value(forKey: kCurrentFontFamily) as? Int,
                 let font = FolioReaderFont(rawValue: rawValue) else {

@@ -13,6 +13,7 @@ public enum FolioReaderFont: Int {
     case lato
     case lora
     case raleway
+    case none
 
     public static func folioReaderFont(fontName: String) -> FolioReaderFont? {
         var font: FolioReaderFont?
@@ -21,6 +22,7 @@ public enum FolioReaderFont: Int {
         case "lato": font = .lato
         case "lora": font = .lora
         case "raleway": font = .raleway
+        case "none" : font = .none
         default: break
         }
         return font
@@ -32,6 +34,7 @@ public enum FolioReaderFont: Int {
         case .lato: return "lato"
         case .lora: return "lora"
         case .raleway: return "raleway"
+        case .none: return ""
         }
     }
 }
