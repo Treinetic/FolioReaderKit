@@ -261,4 +261,10 @@ open class FolioReaderConfig: NSObject {
     
     /// disabled WrappingSentence
     open var isWrappSentence = false
+    
+    /// callback decryption finish event
+    open var onHtmlTransformFinished : ((_ isSuccess : Bool) -> ())?
+    
+    /// callback for decryption. this will send a string of encrypted data and expect decryted html string in return type
+    open var onHtmlTransform : ((_ cypherText : String) -> String)?
 }

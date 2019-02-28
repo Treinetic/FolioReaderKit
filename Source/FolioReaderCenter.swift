@@ -465,6 +465,14 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             return cell
         }
 
+        
+        // html transform
+        if let tranformer = self.readerConfig.onHtmlTransform {
+            html = tranformer(html)
+            self.readerConfig.onHtmlTransformFinished?(true)
+        }
+
+        
         let mediaOverlayStyleColors = "\"\(self.readerConfig.mediaOverlayColor.hexString(false))\", \"\(self.readerConfig.mediaOverlayColor.highlightColor().hexString(false))\""
 
         // Inject CSS
