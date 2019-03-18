@@ -267,4 +267,7 @@ open class FolioReaderConfig: NSObject {
     
     /// callback for decryption. this will send a string of encrypted data and expect decryted html string in return type
     open var onHtmlTransform : ((_ cypherText : String) -> String)?
+    
+    /// Cutom font for highlights and chapter list
+    open var fontName : String = "Helvetica"
 }

@@ -18,11 +18,11 @@ class FolioReaderChapterListCell: UITableViewCell {
     }
 
     func setup(withConfiguration readerConfig: FolioReaderConfig) {
-
+        
         self.indexLabel?.lineBreakMode = .byWordWrapping
         self.indexLabel?.numberOfLines = 0
         self.indexLabel?.translatesAutoresizingMaskIntoConstraints = false
-        self.indexLabel?.font = UIFont(name: "Avenir-Light", size: 17)
+        self.indexLabel?.font = UIFont(name: readerConfig.fontName, size: 17)
         self.indexLabel?.textColor = readerConfig.menuTextColor
 
         if let label = self.indexLabel {
