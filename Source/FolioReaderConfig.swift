@@ -270,4 +270,13 @@ open class FolioReaderConfig: NSObject {
     
     /// Cutom font for highlights and chapter list
     open var fontName : String = "Helvetica"
+    
+    /// Toggle highlight features
+    open var isEnableHighlight = true
+    
+    /// Toggle note features
+    open var isEnableNotes = false
+    
+    /// Toggle define features
+    open var isEnableDefine = false
 }

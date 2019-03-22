@@ -1332,12 +1332,17 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         folioReader.saveReaderState()
 
         let chapter = FolioReaderChapterList(folioReader: folioReader, readerConfig: readerConfig, book: book, delegate: self)
-        let highlight = FolioReaderHighlightList(folioReader: folioReader, readerConfig: readerConfig)
         let pageController = PageViewController(folioReader: folioReader, readerConfig: readerConfig)
-
+        var controlTitles = [readerConfig.localizedContentsTitle]
         pageController.viewControllerOne = chapter
-        pageController.viewControllerTwo = highlight
-        pageController.segmentedControlItems = [readerConfig.localizedContentsTitle, readerConfig.localizedHighlightsTitle]
+        
+        if readerConfig.isEnableHighlight {
+            let highlight = FolioReaderHighlightList(folioReader: folioReader, readerConfig: readerConfig)
+            pageController.viewControllerTwo = highlight
+            controlTitles.append(readerConfig.localizedHighlightsTitle)
+        }
+        
+        pageController.segmentedControlItems = controlTitles
 
         let nav = UINavigationController(rootViewController: pageController)
         present(nav, animated: true, completion: nil)
