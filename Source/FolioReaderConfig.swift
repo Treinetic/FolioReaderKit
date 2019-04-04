@@ -279,4 +279,8 @@ open class FolioReaderConfig: NSObject {
     
     /// Toggle define features
     open var isEnableDefine = false
+    
+    /// dismissHandler
+    open var onDissmissHandler : (() -> ())?
+    
 }

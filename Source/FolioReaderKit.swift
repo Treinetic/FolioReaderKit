@@ -365,5 +365,7 @@ extension FolioReader {
         self.readerAudioPlayer?.stop(immediate: true)
         self.defaults.set(0, forKey: kCurrentTOCMenu)
         self.delegate?.folioReaderDidClose?(self)
+        self.readerContainer?.readerConfig.onDissmissHandler?()
+        
     }
 }
