@@ -119,8 +119,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         self.totalPages = book.spine.spineReferences.count
 
         // Loading indicator
-        let style: UIActivityIndicatorViewStyle = folioReader.isNight(.white, .gray)
-        loadingView = UIActivityIndicatorView(activityIndicatorStyle: style)
+        let style: UIActivityIndicatorView.Style = folioReader.isNight(.white, .gray)
+        loadingView = UIActivityIndicatorView(style: style)
         loadingView.hidesWhenStopped = true
         loadingView.startAnimating()
         self.view.addSubview(loadingView)
@@ -153,7 +153,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = background
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        collectionView.decelerationRate = UIScrollView.DecelerationRate.fast
         enableScrollBetweenChapters(scrollEnabled: true)
         view.addSubview(collectionView)
         
@@ -162,12 +162,12 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         }
 
         // Activity Indicator
-        self.activityIndicator.activityIndicatorViewStyle = .gray
+        self.activityIndicator.style = .gray
         self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator = UIActivityIndicatorView(frame: CGRect(x: screenBounds.size.width/2, y: screenBounds.size.height/2, width: 30, height: 30))
         self.activityIndicator.backgroundColor = UIColor.gray
         self.view.addSubview(self.activityIndicator)
-        self.view.bringSubview(toFront: self.activityIndicator)
+        self.view.bringSubviewToFront(self.activityIndicator)
 
         if #available(iOS 10.0, *) {
             collectionView.isPrefetchingEnabled = false
@@ -608,7 +608,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             return
         }
 
-        self.collectionView.scrollToItem(at: IndexPath(row: self.currentPageNumber - 1, section: 0), at: UICollectionViewScrollPosition(), animated: false)
+        self.collectionView.scrollToItem(at: IndexPath(row: self.currentPageNumber - 1, section: 0), at: UICollectionView.ScrollPosition(), animated: false)
         if (self.currentPageNumber + 1) >= totalPages {
             UIView.animate(withDuration: duration, animations: {
                 self.collectionView.setContentOffset(self.frameForPage(self.currentPageNumber).origin, animated: false)
@@ -785,7 +785,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             return
         }
 
-        UIView.animate(withDuration: animated ? 0.3 : 0, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
+        UIView.animate(withDuration: animated ? 0.3 : 0, delay: 0, options: UIView.AnimationOptions(), animations: { () -> Void in
             self.collectionView.scrollToItem(at: indexPath, at: .direction(withConfiguration: self.readerConfig), animated: false)
         }) { (finished: Bool) -> Void in
             completion?()
@@ -862,7 +862,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     public func getCurrentPageProgress() -> Float {
-        guard let page = currentPage, let webView = page.webView else { return 0 }
+        guard let page = currentPage else { return 0 }
         
         let pageSize = self.readerConfig.isDirection(pageHeight, self.pageWidth, pageHeight)
         let contentSize = page.webView?.scrollView.contentSize.forDirection(withConfiguration: self.readerConfig) ?? 0
@@ -955,7 +955,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             contentOffsetX = 0
         }
         
-        UIView.animate(withDuration: animated ? 0.3 : 0, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
+        UIView.animate(withDuration: animated ? 0.3 : 0, delay: 0, options: UIView.AnimationOptions(), animations: { () -> Void in
             cell.scrollPageToOffset(contentOffsetX, animated: animated)
         }) { (finished: Bool) -> Void in
             self.updateCurrentPage {
@@ -1133,7 +1133,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             shareItems.insert(contentsOf: [act, "" as AnyObject], at: 0)
 
             let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
-            activityViewController.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToVimeo]
+            activityViewController.excludedActivityTypes = [UIActivity.ActivityType.print, UIActivity.ActivityType.postToVimeo]
 
             // Pop style on iPad
             if let actv = activityViewController.popoverPresentationController {
@@ -1192,7 +1192,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         shareItems.insert(contentsOf: [act, "" as AnyObject], at: 0)
 
         let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
-        activityViewController.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToVimeo]
+        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.print, UIActivity.ActivityType.postToVimeo]
 
         // Pop style on iPad
         if let actv = activityViewController.popoverPresentationController {
@@ -1210,6 +1210,10 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         clearRecentlyScrolled()
         recentlyScrolled = true
         pointNow = scrollView.contentOffset
+        
+        if (scrollView is UICollectionView) {
+            scrollView.isUserInteractionEnabled = false
+        }
 
         if let currentPage = currentPage {
             currentPage.webView?.createMenu(options: true)
@@ -1282,6 +1286,10 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.isScrolling = false
+        
+        if (scrollView is UICollectionView) {
+            scrollView.isUserInteractionEnabled = true
+        }
 
         // Perform the page after a short delay as the collection view hasn't completed it's transition if this method is called (the index paths aren't right during fast scrolls).
         delay(0.2, closure: { [weak self] in
@@ -1308,7 +1316,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         recentlyScrolledTimer = Timer(timeInterval:recentlyScrolledDelay, target: self, selector: #selector(FolioReaderCenter.clearRecentlyScrolled), userInfo: nil, repeats: false)
-        RunLoop.current.add(recentlyScrolledTimer, forMode: RunLoopMode.commonModes)
+        RunLoop.current.add(recentlyScrolledTimer, forMode: RunLoop.Mode.common)
     }
 
     @objc func clearRecentlyScrolled() {

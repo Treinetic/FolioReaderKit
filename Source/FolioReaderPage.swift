@@ -9,7 +9,6 @@
 import UIKit
 import SafariServices
 import MenuItemKit
-import JSQWebViewController
 
 /// Protocol which is used from `FolioReaderPage`s.
 @objc public protocol FolioReaderPageDelegate: class {
@@ -225,7 +224,7 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
         delegate?.pageDidLoad?(self)
     }
 
-    open func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    open func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         guard
             let webView = webView as? FolioReaderWebView,
             let scheme = request.url?.scheme else {
@@ -239,7 +238,7 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
 
             guard let decoded = url.absoluteString.removingPercentEncoding else { return false }
             let index = decoded.index(decoded.startIndex, offsetBy: 12)
-            let rect = CGRectFromString(String(decoded[index...]))
+            let rect = NSCoder.cgRect(for: String(decoded[index...]))
 
             webView.createMenu(options: true)
             webView.setMenuVisible(true, andRect: rect)
@@ -300,17 +299,9 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
             print("Email")
             return true
         } else if url.absoluteString != "about:blank" && scheme.contains("http") && navigationType == .linkClicked {
-
-            if #available(iOS 9.0, *) {
-                let safariVC = SFSafariViewController(url: request.url!)
-                safariVC.view.tintColor = self.readerConfig.tintColor
-                self.folioReader.readerCenter?.present(safariVC, animated: true, completion: nil)
-            } else {
-                let webViewController = WebViewController(url: request.url!)
-                let nav = UINavigationController(rootViewController: webViewController)
-                nav.view.tintColor = self.readerConfig.tintColor
-                self.folioReader.readerCenter?.present(nav, animated: true, completion: nil)
-            }
+            let safariVC = SFSafariViewController(url: request.url!)
+            safariVC.view.tintColor = self.readerConfig.tintColor
+            self.folioReader.readerCenter?.present(safariVC, animated: true, completion: nil)
             return false
         } else {
             // Check if the url is a custom class based onClick listerner
