@@ -243,7 +243,7 @@ extension FolioReaderFontsMenuModified {
         slider.tintColor = self.readerConfig.nightModeSeparatorColor
         slider.minimumValue = 0
         slider.value = CGFloat(self.folioReader.currentFontSize.rawValue)
-        slider.addTarget(self, action: #selector(FolioReaderFontsMenu.sliderValueChanged(_:)), for: UIControlEvents.valueChanged)
+        slider.addTarget(self, action: #selector(FolioReaderFontsMenu.sliderValueChanged(_:)), for: UIControl.Event.valueChanged)
         
         // Force remove fill color
         slider.layer.sublayers?.forEach({ layer in
@@ -253,11 +253,11 @@ extension FolioReaderFontsMenuModified {
         // Font icons
         let fontSmallView = UIImageView(frame: CGRect(x: 20, y: 10 , width: 30, height: 30))
         fontSmallView.image = fontSmallNormal
-        fontSmallView.contentMode = UIViewContentMode.center
+        fontSmallView.contentMode = UIView.ContentMode.center
         
         let fontBigView = UIImageView(frame: CGRect(x: slider.frame.width + 50, y: 10 , width: 30, height: 30))
         fontBigView.image = fontBigNormal
-        fontBigView.contentMode = UIViewContentMode.center
+        fontBigView.contentMode = UIView.ContentMode.center
         
         container.addSubview(slider)
         container.addSubview(fontSmallView)
