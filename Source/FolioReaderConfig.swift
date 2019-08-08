@@ -295,4 +295,6 @@ open class FolioReaderConfig: NSObject {
     /// dismissHandler
     open var onDissmissHandler : (() -> ())?
     
+    open var onError : ((_ viewController : UIViewController) -> ())?
+    
 }

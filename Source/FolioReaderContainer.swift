@@ -174,7 +174,6 @@ open class FolioReaderContainer: UIViewController {
                 }
             } catch {
                 self.errorOnLoad = true
-                self.alert(message: error.localizedDescription)
             }
         }
     }
@@ -183,6 +182,7 @@ open class FolioReaderContainer: UIViewController {
         super.viewDidAppear(animated)
 
         if (self.errorOnLoad == true) {
+            self.readerConfig.onError?(self)
             self.dismiss()
         }
     }
