@@ -215,12 +215,12 @@ html.nightMode, html.nightMode body {
 }
 
 .nightMode p, .nightMode div, .nightMode span:not(.epub-media-overlay-playing) {
-    color: #767676 !important;
+    color: #eaeaea !important;
     background-color: transparent !important;
 }
 
 .nightMode h1, .nightMode h2, .nightMode h3, .nightMode h4, .nightMode h5, .nightMode h6 {
-    color: #848484 !important;
+    color: #e1e1e1 !important;
 }
 
 html.nightMode .highlight-yellow {background:rgba(255, 235, 107, 0.9)}
@@ -241,11 +241,11 @@ html.nightMode .highlight-underline {border-bottom: 2px solid rgba(240, 40, 20, 
 .lora, .lora p, .lora span, .lora div { font-family: "Lora", serif !important; }
 .raleway, .raleway p, .raleway span, .raleway div { font-family: "Raleway", sans-serif !important; }
 
-html.textSizeOne, .textSizeOne body { font-size: 13px !important; }
+html.textSizeOne, .textSizeOne body { font-size: 10px !important; }
 html.textSizeTwo, .textSizeTwo body { font-size: 15px !important; }
-html.textSizeThree, .textSizeThree body { font-size: 17px !important; }
-html.textSizeFour, .textSizeFour body { font-size: 19px !important; }
-html.textSizeFive, .textSizeFive body { font-size: 21px !important; }
+html.textSizeThree, .textSizeThree body { font-size: 20px !important; }
+html.textSizeFour, .textSizeFour body { font-size: 25px !important; }
+html.textSizeFive, .textSizeFive body { font-size: 30px !important; }
 
 h1 {
     font-size: 2em;
