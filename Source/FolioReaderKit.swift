@@ -366,6 +366,5 @@ extension FolioReader {
         self.defaults.set(0, forKey: kCurrentTOCMenu)
         self.delegate?.folioReaderDidClose?(self)
         self.readerContainer?.readerConfig.onDissmissHandler?()
-        
     }
 }

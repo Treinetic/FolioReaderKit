@@ -295,6 +295,7 @@ open class FolioReaderConfig: NSObject {
     /// dismissHandler
     open var onDissmissHandler : (() -> ())?
     
+    /// Error handler. If epub cannot pharse this will invoke
     open var onError : ((_ viewController : UIViewController) -> ())?
     
 }
