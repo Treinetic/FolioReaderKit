@@ -9,6 +9,7 @@
 import UIKit
 import SafariServices
 import MenuItemKit
+import Lightbox
 
 /// Protocol which is used from `FolioReaderPage`s.
 @objc public protocol FolioReaderPageDelegate: class {
@@ -303,6 +304,18 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
             safariVC.view.tintColor = self.readerConfig.tintColor
             self.folioReader.readerCenter?.present(safariVC, animated: true, completion: nil)
             return false
+        } else if scheme == "view-image" {
+            let imagePath = url.absoluteString.replacingOccurrences(of: "view-image://", with: "")
+                .replacingOccurrences(of: "file://", with: "")
+                .replacingOccurrences(of: "file//", with: "")
+            let images = [
+                LightboxImage.init(image: UIImage.init(contentsOfFile: imagePath) ?? UIImage())
+            ]
+            let lbvc = LightboxController.init(images: images, startIndex: 0)
+            lbvc.footerView.isHidden = true
+            self.folioReader.readerCenter?.present(lbvc, animated: true, completion: nil)
+            return false
+            
         } else {
             // Check if the url is a custom class based onClick listerner
             var isClassBasedOnClickListenerScheme = false

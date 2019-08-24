@@ -11,11 +11,11 @@ var audioMarkClass;
 var wordsPerMinute = 180;
 
 document.addEventListener("DOMContentLoaded", function(event) {
-//    var lnk = document.getElementsByClassName("lnk");
-//    for (var i=0; i<lnk.length; i++) {
-//        lnk[i].setAttribute("onclick","return callVerseURL(this);");
-//    }
-});
+                          //    var lnk = document.getElementsByClassName("lnk");
+                          //    for (var i=0; i<lnk.length; i++) {
+                          //        lnk[i].setAttribute("onclick","return callVerseURL(this);");
+                          //    }
+                          });
 
 // Generate a GUID
 function guid() {
@@ -33,18 +33,18 @@ function getHTML() {
 
 // Class manipulation
 function hasClass(ele,cls) {
-  return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+    return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
 }
 
 function addClass(ele,cls) {
-  if (!hasClass(ele,cls)) ele.className += " "+cls;
+    if (!hasClass(ele,cls)) ele.className += " "+cls;
 }
 
 function removeClass(ele,cls) {
-  if (hasClass(ele,cls)) {
-    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-    ele.className=ele.className.replace(reg,' ');
-  }
+    if (hasClass(ele,cls)) {
+        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+        ele.className=ele.className.replace(reg,' ');
+    }
 }
 
 // Font name class
@@ -171,8 +171,8 @@ var getRectForSelectedText = function(elm) {
 // Method that call that a hightlight was clicked
 // with URL scheme and rect informations
 var callHighlightURL = function(elm) {
-	event.stopPropagation();
-	var URLBase = "highlight://";
+    event.stopPropagation();
+    var URLBase = "highlight://";
     var currentHighlightRect = getRectForSelectedText(elm);
     thisHighlight = elm;
     
@@ -197,7 +197,7 @@ function getReadingTime() {
     var wordsPerSecond = wordsPerMinute / 60; //define words per second based on words per minute
     var totalReadingTimeSeconds = totalWords / wordsPerSecond; //define total reading time in seconds
     var readingTimeMinutes = Math.round(totalReadingTimeSeconds / 60);
-
+    
     return readingTimeMinutes;
 }
 
@@ -221,44 +221,44 @@ var getAnchorOffset = function(target, horizontal) {
 function findElementWithID(node) {
     if( !node || node.tagName == "BODY")
         return null
-    else if( node.id )
-        return node
-    else
-        return findElementWithID(node)
-}
+        else if( node.id )
+            return node
+            else
+                return findElementWithID(node)
+                }
 
 function findElementWithIDInView() {
-
+    
     if(audioMarkClass) {
         // attempt to find an existing "audio mark"
         var el = document.querySelector("."+audioMarkClass)
-
+        
         // if that existing audio mark exists and is in view, use it
         if( el && el.offsetTop > document.body.scrollTop && el.offsetTop < (window.innerHeight + document.body.scrollTop))
             return el
-    }
-
+            }
+    
     // @NOTE: is `span` too limiting?
     var els = document.querySelectorAll("span[id]")
-
+    
     for(indx in els) {
         var element = els[indx];
-
+        
         // Horizontal scroll
         if (document.body.scrollTop == 0) {
             var elLeft = document.body.clientWidth * Math.floor(element.offsetTop / window.innerHeight);
             // document.body.scrollLeft = elLeft;
-
+            
             if (elLeft == document.body.scrollLeft) {
                 return element;
             }
-
-        // Vertical
+            
+            // Vertical
         } else if(element.offsetTop > document.body.scrollTop) {
             return element;
         }
     }
-
+    
     return null
 }
 
@@ -269,16 +269,16 @@ function findElementWithIDInView() {
 function playAudio() {
     var sel = getSelection();
     var node = null;
-
+    
     // user selected text? start playing from the selected node
     if (sel.toString() != "") {
         node = sel.anchorNode ? findElementWithID(sel.anchorNode.parentNode) : null;
-
-    // find the first ID'd element that is within view (it will
+        
+        // find the first ID'd element that is within view (it will
     } else {
         node = findElementWithIDInView()
     }
-
+    
     playAudioFragmentID(node ? node.id : null)
 }
 
@@ -299,23 +299,23 @@ function goToEl(el) {
     var elTop = el.offsetTop - 20;
     var bottom = window.innerHeight + document.body.scrollTop;
     var elBottom = el.offsetHeight + el.offsetTop + 60
-
+    
     if(elBottom > bottom || elTop < top) {
         document.body.scrollTop = el.offsetTop - 20
     }
     
     /* Set scroll left in case horz scroll is activated.
-    
-        The following works because el.offsetTop accounts for each page turned
-        as if the document was scrolling vertical. We then divide by the window
-        height to figure out what page the element should appear on and set scroll left
-        to scroll to that page.
-    */
+     
+     The following works because el.offsetTop accounts for each page turned
+     as if the document was scrolling vertical. We then divide by the window
+     height to figure out what page the element should appear on and set scroll left
+     to scroll to that page.
+     */
     if( document.body.scrollTop == 0 ){
         var elLeft = document.body.clientWidth * Math.floor(el.offsetTop / window.innerHeight);
         document.body.scrollLeft = elLeft;
     }
-
+    
     return el;
 }
 
@@ -325,9 +325,9 @@ function goToEl(el) {
 function removeAllClasses(className) {
     var els = document.body.getElementsByClassName(className)
     if( els.length > 0 )
-    for( i = 0; i <= els.length; i++) {
-        els[i].classList.remove(className);
-    }
+        for( i = 0; i <= els.length; i++) {
+            els[i].classList.remove(className);
+        }
 }
 
 /**
@@ -336,10 +336,10 @@ function removeAllClasses(className) {
 function audioMarkID(className, id) {
     if (audioMarkClass)
         removeAllClasses(audioMarkClass);
-
+    
     audioMarkClass = className
     var el = document.getElementById(id);
-
+    
     goToEl(el);
     el.classList.add(className)
 }
@@ -363,18 +363,18 @@ function findSentenceWithIDInView(els) {
     // @NOTE: is `span` too limiting?
     for(indx in els) {
         var element = els[indx];
-
+        
         // Horizontal scroll
         if (document.body.scrollTop == 0) {
             var elLeft = document.body.clientWidth * Math.floor(element.offsetTop / window.innerHeight);
             // document.body.scrollLeft = elLeft;
-
+            
             if (elLeft == document.body.scrollLeft) {
                 currentIndex = indx;
                 return element;
             }
-
-        // Vertical
+            
+            // Vertical
         } else if(element.offsetTop > document.body.scrollTop) {
             currentIndex = indx;
             return element;
@@ -402,15 +402,15 @@ function getSentenceWithIndex(className) {
     var sel = getSelection();
     var node = null;
     var elements = document.querySelectorAll("span.sentence");
-
+    
     // Check for a selected text, if found start reading from it
     if (sel.toString() != "") {
         console.log(sel.anchorNode.parentNode);
         node = sel.anchorNode.parentNode;
-
+        
         if (node.className == "sentence") {
             sentence = node
-
+            
             for(var i = 0, len = elements.length; i < len; i++) {
                 if (elements[i] === sentence) {
                     currentIndex = i;
@@ -425,7 +425,7 @@ function getSentenceWithIndex(className) {
     } else {
         sentence = findNextSentenceInArray(elements);
     }
-
+    
     var text = sentence.innerText || sentence.textContent;
     
     goToEl(sentence);
@@ -472,7 +472,7 @@ function wrappingSentencesWithinPTags(){
         
         return index;
     }
-
+    
     function pushSpan(array, className, string, classNameOpt) {
         if (!string.match('[a-zA-Z0-9]+')) {
             array.push(string);
@@ -580,39 +580,39 @@ function wrappingSentencesWithinPTags(){
     
     function guessSenetences() {
         var paragraphs = document.getElementsByTagName("p");
-
+        
         Array.prototype.forEach.call(paragraphs, function (paragraph) {
-            var html = paragraph.innerHTML,
-                length = html.length,
-                array = [],
-                safety = 100;
-
-            while (length && safety) {
-                html = addSupToPrevious(html, array);
-                if (html.length === length) {
-                    if (html.length === length) {
-                        html = paragraphIsSentence(html, array);
-                        if (html.length === length) {
-                            html = paragraphNoMarkup(html, array);
-                            if (html.length === length) {
-                                html = sentenceUncontained(html, array);
-                                if (html.length === length) {
-                                    html = sentenceContained(html, array);
-                                    if (html.length === length) {
-                                        html = anythingElse(html, array);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                length = html.length;
-                safety -= 1;
-            }
-
-            paragraph.innerHTML = array.join("");
-        });
+                                     var html = paragraph.innerHTML,
+                                     length = html.length,
+                                     array = [],
+                                     safety = 100;
+                                     
+                                     while (length && safety) {
+                                     html = addSupToPrevious(html, array);
+                                     if (html.length === length) {
+                                     if (html.length === length) {
+                                     html = paragraphIsSentence(html, array);
+                                     if (html.length === length) {
+                                     html = paragraphNoMarkup(html, array);
+                                     if (html.length === length) {
+                                     html = sentenceUncontained(html, array);
+                                     if (html.length === length) {
+                                     html = sentenceContained(html, array);
+                                     if (html.length === length) {
+                                     html = anythingElse(html, array);
+                                     }
+                                     }
+                                     }
+                                     }
+                                     }
+                                     }
+                                     
+                                     length = html.length;
+                                     safety -= 1;
+                                     }
+                                     
+                                     paragraph.innerHTML = array.join("");
+                                     });
     }
     
     guessSenetences();
@@ -621,34 +621,39 @@ function wrappingSentencesWithinPTags(){
 // Class based onClick listener
 
 function addClassBasedOnClickListener(schemeName, querySelector, attributeName, selectAll) {
-	if (selectAll) {
-		// Get all elements with the given query selector
-		var elements = document.querySelectorAll(querySelector);
-		for (elementIndex = 0; elementIndex < elements.length; elementIndex++) {
-			var element = elements[elementIndex];
-			addClassBasedOnClickListenerToElement(element, schemeName, attributeName);
-		}
-	} else {
-		// Get the first element with the given query selector
-		var element = document.querySelector(querySelector);
-		addClassBasedOnClickListenerToElement(element, schemeName, attributeName);
-	}
+    if (selectAll) {
+        // Get all elements with the given query selector
+        var elements = document.querySelectorAll(querySelector);
+        for (elementIndex = 0; elementIndex < elements.length; elementIndex++) {
+            var element = elements[elementIndex];
+            addClassBasedOnClickListenerToElement(element, schemeName, attributeName);
+        }
+    } else {
+        // Get the first element with the given query selector
+        var element = document.querySelector(querySelector);
+        addClassBasedOnClickListenerToElement(element, schemeName, attributeName);
+    }
 }
 
 function addClassBasedOnClickListenerToElement(element, schemeName, attributeName) {
-	// Get the content from the given attribute name
-	var attributeContent = element.getAttribute(attributeName);
-	// Add the on click logic
-	element.setAttribute("onclick", "onClassBasedListenerClick(\"" + schemeName + "\", \"" + encodeURIComponent(attributeContent) + "\");");
+    // Get the content from the given attribute name
+    var attributeContent = element.getAttribute(attributeName);
+    // Add the on click logic
+    element.setAttribute("onclick", "onClassBasedListenerClick(\"" + schemeName + "\", \"" + encodeURIComponent(attributeContent) + "\");");
 }
 
 var onClassBasedListenerClick = function(schemeName, attributeContent) {
-	// Prevent the browser from performing the default on click behavior
-	event.preventDefault();
-	// Don't pass the click event to other elemtents
-	event.stopPropagation();
-	// Create parameters containing the click position inside the web view.
-	var positionParameterString = "/clientX=" + event.clientX + "&clientY=" + event.clientY;
-	// Set the custom link URL to the event
-	window.location = schemeName + "://" + attributeContent + positionParameterString;
+    // Prevent the browser from performing the default on click behavior
+    event.preventDefault();
+    // Don't pass the click event to other elemtents
+    event.stopPropagation();
+    // Create parameters containing the click position inside the web view.
+    var positionParameterString = "/clientX=" + event.clientX + "&clientY=" + event.clientY;
+    // Set the custom link URL to the event
+    window.location = schemeName + "://" + attributeContent + positionParameterString;
+}
+
+
+function handleImageClick(image) {
+    window.location = "view-image://" + image.src;
 }
