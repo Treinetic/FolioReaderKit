@@ -482,11 +482,9 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
         // Inject CSS
         let jsFilePath = Bundle.frameworkBundle().path(forResource: "Bridge", ofType: "js")
-        let jqueryPath = Bundle.frameworkBundle().path(forResource: "jquery", ofType: "js")
         let cssFilePath = Bundle.frameworkBundle().path(forResource: "Style", ofType: "css")
         let cssTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"\(cssFilePath!)\">"
-        let jsTag = "<script type=\"text/javascript\" src=\"\(jqueryPath!)\"></script>" +
-        "<script type=\"text/javascript\" src=\"\(jsFilePath!)\"></script>" +
+        let jsTag = "<script type=\"text/javascript\" src=\"\(jsFilePath!)\"></script>" +
         "<script type=\"text/javascript\">setMediaOverlayStyleColors(\(mediaOverlayStyleColors))</script>"
 
         let toInject = "\n\(cssTag)\n\(jsTag)\n</head>"

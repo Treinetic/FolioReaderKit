@@ -311,6 +311,7 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
             let images = [
                 LightboxImage.init(image: UIImage.init(contentsOfFile: imagePath) ?? UIImage())
             ]
+  
             let lbvc = LightboxController.init(images: images, startIndex: 0)
             lbvc.footerView.isHidden = true
             self.folioReader.readerCenter?.present(lbvc, animated: true, completion: nil)
