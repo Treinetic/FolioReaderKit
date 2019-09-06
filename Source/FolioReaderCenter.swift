@@ -70,6 +70,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     var currentPageNumber: Int = 0
     var pageWidth: CGFloat = 0.0
     var pageHeight: CGFloat = 0.0
+    var bookmarkFeedbackView : UIImageView?
 
     fileprivate var screenBounds: CGRect!
     fileprivate var pointNow = CGPoint.zero
@@ -196,6 +197,18 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         if let scrollScrubber = scrollScrubber {
             view.addSubview(scrollScrubber.slider)
         }
+        
+        // Setup bookmark feedback view
+        DispatchQueue.main.async {
+            
+            let img = UIImage.init(named: "bookmark", in: Bundle.init(for: type(of: self)), compatibleWith: nil)
+            self.bookmarkFeedbackView = UIImageView.init(frame: CGRect.init(x: 0, y: self.collectionView.contentInset.top, width: 50, height: 50))
+            self.bookmarkFeedbackView?.image = img
+            self.bookmarkFeedbackView?.isUserInteractionEnabled = false
+            self.bookmarkFeedbackView?.alpha = 0
+            self.view.addSubview(self.bookmarkFeedbackView!)
+        }
+        
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -265,6 +278,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         let closeIcon = UIImage(readerImageNamed: "icon-navbar-close")?.ignoreSystemTint(withConfiguration: self.readerConfig)
         let tocIcon = UIImage(readerImageNamed: "icon-navbar-toc")?.ignoreSystemTint(withConfiguration: self.readerConfig)
         let fontIcon = UIImage(readerImageNamed: "icon-navbar-font")?.ignoreSystemTint(withConfiguration: self.readerConfig)
+        let bookmarkIcon = UIImage(readerImageNamed: "icon-bookmark")?.ignoreSystemTint(withConfiguration: self.readerConfig)
         let space = 70 as CGFloat
 
         let menu = UIBarButtonItem(image: closeIcon, style: .plain, target: self, action:#selector(closeReader(_:)))
@@ -285,6 +299,10 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
         if self.book.hasAudio || self.readerConfig.enableTTS {
             rightBarIcons.append(UIBarButtonItem(image: audioIcon, style: .plain, target: self, action:#selector(presentPlayerMenu(_:))))
+        }
+        
+        if self.readerConfig.isEnableManualBookmarking {
+            rightBarIcons.append(UIBarButtonItem.init(image: bookmarkIcon, style: .plain, target: self, action: #selector(saveBookmark(_:))))
         }
 
         let font = UIBarButtonItem(image: fontIcon, style: .plain, target: self, action: #selector(presentFontsMenu))
@@ -315,6 +333,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             self.changePageWith(page: pageNumber)
             self.currentPageNumber = pageNumber
         }
+        
     }
 
     // MARK: Change page progressive direction
@@ -1342,7 +1361,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
      Present chapter list
      */
     @objc func presentChapterList(_ sender: UIBarButtonItem) {
-        folioReader.saveReaderState()
+//        folioReader.saveReaderState()
 
         let chapter = FolioReaderChapterList(folioReader: folioReader, readerConfig: readerConfig, book: book, delegate: self)
         let pageController = PageViewController(folioReader: folioReader, readerConfig: readerConfig)
@@ -1362,10 +1381,35 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     }
 
     /**
+     Save bookmark
+    */
+    @objc func saveBookmark(_ sender: UIBarButtonItem) {
+        folioReader.saveReaderState()
+        bookmarkFeedbackView?.removeFromSuperview()
+        bookmarkFeedbackView?.isUserInteractionEnabled = false
+        self.bookmarkFeedbackView?.transform = CGAffineTransform.init(scaleX: 0.5, y: 0.5)
+        bookmarkFeedbackView?.frame.origin.x = (self.view.frame.width / 2) - (self.bookmarkFeedbackView!.frame.width / 2)
+        bookmarkFeedbackView?.frame.origin.y = (self.view.frame.height / 2) - (self.bookmarkFeedbackView!.frame.height / 2)
+        bookmarkFeedbackView?.alpha = 0
+        self.view.addSubview(bookmarkFeedbackView!)
+        UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
+            self.bookmarkFeedbackView?.alpha = 0.7
+            self.bookmarkFeedbackView?.transform = CGAffineTransform.init(scaleX: 2.5, y: 2.5)
+        }, completion: { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.bookmarkFeedbackView?.alpha = 0
+                    self.bookmarkFeedbackView?.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
+                })
+            })
+        })
+    }
+    
+    /**
      Present fonts and settings menu
      */
     @objc func presentFontsMenu() {
-        folioReader.saveReaderState()
+//        folioReader.saveReaderState()
         hideBars()
 
         let menu = FolioReaderFontsMenuModified(folioReader: folioReader, readerConfig: readerConfig)
@@ -1387,7 +1431,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
      Present audio player menu
      */
     @objc func presentPlayerMenu(_ sender: UIBarButtonItem) {
-        folioReader.saveReaderState()
+//        folioReader.saveReaderState()
         hideBars()
 
         let menu = FolioReaderPlayerMenu(folioReader: folioReader, readerConfig: readerConfig)

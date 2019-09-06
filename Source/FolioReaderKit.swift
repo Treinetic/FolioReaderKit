@@ -309,6 +309,21 @@ extension FolioReader {
             self.defaults.set(newValue, forKey: bookId)
         }
     }
+    
+    open var savedBookmarkForCurrentBook: [String: Any]? {
+        get {
+            guard let bookId = self.readerContainer?.book.name else {
+                return nil
+            }
+            return self.defaults.value(forKey: "\(bookId)-bm") as? [String : Any]
+        }
+        set {
+            guard let bookId = self.readerContainer?.book.name else {
+                return
+            }
+            self.defaults.set(newValue, forKey: "\(bookId)-bm")
+        }
+    }
 }
 
 // MARK: - Metadata
@@ -356,10 +371,33 @@ extension FolioReader {
 
         self.savedPositionForCurrentBook = position
     }
+    
+    /// Save Reader state, book, page and scroll offset.
+    @objc open func saveBookmark() {
+        guard isReaderOpen else {
+            return
+        }
+        
+        guard let currentPage = self.readerCenter?.currentPage, let webView = currentPage.webView else {
+            return
+        }
+        
+        let position = [
+            "pageNumber": (self.readerCenter?.currentPageNumber ?? 0),
+            "pageOffsetX": webView.scrollView.contentOffset.x,
+            "pageOffsetY": webView.scrollView.contentOffset.y
+            ] as [String : Any]
+        
+        self.savedBookmarkForCurrentBook = position
+    }
 
     /// Closes and save the reader current instance.
     open func close() {
-        self.saveReaderState()
+
+        if let rc = readerContainer, rc.readerConfig.isEnableAutoBookmarking {
+            self.saveReaderState()
+        }
+        
         self.isReaderOpen = false
         self.isReaderReady = false
         self.readerAudioPlayer?.stop(immediate: true)

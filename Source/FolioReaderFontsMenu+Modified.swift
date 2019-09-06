@@ -229,7 +229,7 @@ extension FolioReaderFontsMenuModified {
         container.frame = CGRect(x: 0, y: top, width: width, height: 55)
         
         let slider = HADiscreteSlider(frame: CGRect(x: 50, y: 0, width: width - 100, height: 55))
-        slider.tickStyle = ComponentStyle.rounded
+        slider.tickStyle = ComponentStyle.invisible
         slider.tickCount = 5
         slider.tickSize = CGSize(width: 8, height: 8)
         

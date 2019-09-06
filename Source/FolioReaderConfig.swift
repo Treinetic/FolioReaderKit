@@ -298,4 +298,10 @@ open class FolioReaderConfig: NSObject {
     /// Error handler. If epub cannot pharse this will invoke
     open var onError : ((_ viewController : UIViewController) -> ())?
     
+    /// Automatic bookmark
+    open var isEnableAutoBookmarking = true
+    
+    /// Manual bookmark
+    open var isEnableManualBookmarking = false
+    
 }

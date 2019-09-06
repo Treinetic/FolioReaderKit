@@ -189,7 +189,7 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
 
         // Font slider size
         let slider = HADiscreteSlider(frame: CGRect(x: 60, y: line2.frame.origin.y+2, width: view.frame.width-120, height: 55))
-        slider.tickStyle = ComponentStyle.rounded
+        slider.tickStyle = ComponentStyle.invisible
         slider.tickCount = 5
         slider.tickSize = CGSize(width: 8, height: 8)
 
