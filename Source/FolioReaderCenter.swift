@@ -209,6 +209,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             self.view.addSubview(self.bookmarkFeedbackView!)
         }
         
+        
+        
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -290,6 +292,9 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         }
         navigationItem.leftBarButtonItems = leftButtons
         
+        if let t = self.readerConfig.bookTitle {
+            self.navigationItem.title = t
+        }
 
         var rightBarIcons = [UIBarButtonItem]()
 

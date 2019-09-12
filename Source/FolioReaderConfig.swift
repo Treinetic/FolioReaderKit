@@ -304,4 +304,7 @@ open class FolioReaderConfig: NSObject {
     /// Manual bookmark
     open var isEnableManualBookmarking = false
     
+    /// Book title
+    open var bookTitle : String? = nil
+    
 }
