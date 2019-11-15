@@ -84,4 +84,10 @@ open class FRBook: NSObject {
     func duration(for ID: String) -> String? {
         return metadata.find(byProperty: "media:duration", refinedBy: ID)?.value
     }
+    
+    func removeCover() {
+        spine.spineReferences.removeAll(where: {
+            return $0.resource.id == "cover"
+        })
+    }
 }

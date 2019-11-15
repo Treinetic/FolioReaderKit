@@ -476,7 +476,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         }
 
         cell.setup(withReaderContainer: readerContainer)
-        cell.pageNumber = indexPath.row+1
+        cell.pageNumber = indexPath.row + 1
         cell.webView?.scrollView.delegate = self
         if #available(iOS 11.0, *) {
             cell.webView?.scrollView.contentInsetAdjustmentBehavior = .never

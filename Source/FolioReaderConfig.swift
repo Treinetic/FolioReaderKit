@@ -307,4 +307,7 @@ open class FolioReaderConfig: NSObject {
     /// Book title
     open var bookTitle : String? = nil
     
+    /// Hide book cover page
+    open var hideBookCover = false
+    
 }

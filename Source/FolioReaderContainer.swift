@@ -159,6 +159,11 @@ open class FolioReaderContainer: UIViewController {
 
             do {
                 let parsedBook = try FREpubParser().readEpub(epubPath: self.epubPath, removeEpub: self.shouldRemoveEpub, unzipPath: self.unzipPath)
+                
+                if self.readerConfig.hideBookCover {
+                    parsedBook.removeCover()
+                }
+                
                 self.book = parsedBook
                 self.folioReader.isReaderOpen = true
 
@@ -177,6 +182,8 @@ open class FolioReaderContainer: UIViewController {
             }
         }
     }
+    
+    
 
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
